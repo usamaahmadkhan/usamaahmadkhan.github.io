@@ -1,146 +1,89 @@
-# My Resume
+# usamaahmadkhan.dev
 
-A single-file HTML resume hosted on GitHub Pages.
-**One edit → push → live site updated automatically.**
+Personal site — infra/SRE dashboard portfolio, ATS-friendly résumé, and a markdown blog.
+Plain HTML/CSS/JS, one build script, one runtime dependency. No framework, no client-side
+rendering. See [PLAN.md](PLAN.md) for the full design spec and the list of decisions behind it.
 
----
+## Requirements
 
-## Live URL
+- [Node.js](https://nodejs.org/) 20+
 
-After setup, your resume will be at:
-```
-https://<your-github-username>.github.io/<repo-name>/
-```
-
----
-
-## Setup (one-time, ~5 minutes)
-
-### 1. Create the repository
-
-1. Go to [github.com/new](https://github.com/new).
-2. Name it something like `resume` (the name becomes part of your URL).
-3. Set it to **Public** (required for free GitHub Pages).
-4. Click **Create repository**.
-
-### 2. Push these files
+## Local development
 
 ```bash
-git init
-git add .
-git commit -m "init: add resume"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
+npm install
+npm run build   # renders content/posts/*.md -> dist/, copies src/ -> dist/
+npm run dev     # build + serve dist/ at http://localhost:8080
 ```
 
-### 3. Enable GitHub Pages
+`dist/` is generated and gitignored — never edit it directly.
 
-1. In your repo, go to **Settings → Pages**.
-2. Under **Source**, select **GitHub Actions**.
-3. Save. The first deploy starts automatically.
+## Editing content
 
-Your resume is now live at the URL shown on the Pages settings screen.
+| To change... | Edit... |
+|---|---|
+| Homepage copy, experience, skills, certs | [src/index.html](src/index.html) |
+| Résumé (mirrors the homepage content) | [src/resume/index.html](src/resume/index.html) |
+| Contact page | [src/contact/index.html](src/contact/index.html) |
+| Colours, fonts, spacing, the process-panel component | [src/assets/css/site.css](src/assets/css/site.css) |
+| Print/PDF layout for the résumé | [src/assets/css/print.css](src/assets/css/print.css) |
+| Nav toggle, scroll reveal, email address | [src/assets/js/site.js](src/assets/js/site.js) — see the `CONFIG` block at the top |
+| Toolkit panels | [src/index.html](src/index.html), `#toolkit` section |
 
----
+## Writing a blog post
 
-## Day-to-day workflow
+1. Add a file to `content/posts/`, e.g. `content/posts/my-post.md`:
 
-### Editing your resume
+   ```markdown
+   ---
+   title: My Post Title
+   date: 2026-01-15
+   summary: One sentence for the index page and meta description.
+   draft: false
+   ---
 
-Open `index.html` in any editor (VS Code, Sublime, even the GitHub web editor) and update the HTML content. The file has clear comments marking each section.
+   Body in markdown. Code fences, lists, tables, and blockquotes all work.
+   ```
 
-### Publishing an update
+2. Run `npm run build` to preview it locally at `/blog/my-post/`.
+3. Commit and push — Cloudflare Pages runs the same build.
 
-```bash
-git add index.html
-git commit -m "update: add new role at Company X"
-git push
-```
+Set `draft: true` to keep a post out of the build entirely (it won't appear in `dist/`
+until you flip it back).
 
-GitHub Actions picks this up and your live site is updated in ~30 seconds.
+## Deploying (Cloudflare Pages)
 
-### Editing directly on GitHub (no git required)
+1. Push this repo to GitHub.
+2. Cloudflare dashboard → **Workers & Pages** → **Create** → connect the repo.
+3. Build settings:
+   - Build command: `npm ci && npm run build`
+   - Build output directory: `dist`
+   - Node version: 20 or later
+4. First deploy publishes to a `*.pages.dev` URL. Add a custom domain under
+   **Custom domains** once you've registered one — see PLAN.md for domain candidates.
 
-1. Click `index.html` in the repo.
-2. Click the **pencil icon** (Edit).
-3. Make your changes and click **Commit changes**.
-4. The site deploys automatically.
+`_headers` (security headers, asset caching) and `_redirects` are picked up automatically
+from `dist/` by Cloudflare Pages; nothing else to configure.
 
----
+## Exporting the résumé as PDF
 
-## Exporting as PDF
+Open `/resume/` (locally or on the live site) and click **Download PDF**, or press
+Ctrl+P / Cmd+P. Destination: Save as PDF · Paper: A4 · Background graphics: on.
 
-1. Open your live URL (or open `index.html` locally in Chrome / Edge).
-2. Press **Ctrl+P** (Windows/Linux) or **⌘+P** (Mac).
-3. Set:
-   - Destination: **Save as PDF**
-   - Paper size: **A4**
-   - Margins: **None**
-   - ✅ Background graphics: **On**
-4. Click **Save**.
-
-> **Tip:** Chrome and Edge produce the most accurate PDFs. Firefox works too but may render fonts slightly differently.
-
----
-
-## Customising the design
-
-All styles are in the `<style>` block at the top of `index.html`.
-
-| Variable | What it controls | Default |
-|---|---|---|
-| `--accent` | Headers, links, bullet dashes | `#2563EB` (blue) |
-| `--dark` | Name, company names | `#0F172A` |
-| `--sidebar-bg` | Left column background | `#F8FAFC` |
-
-Change `--accent` to personalise the colour scheme instantly.
-
----
-
-## File structure
+## Project structure
 
 ```
 resume/
-├── index.html                  ← The entire resume (edit this)
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          ← Auto-deploy on push (don't touch)
-└── README.md                   ← This file
-```
-
----
-
-## Optional: auto-generate PDF on every push
-
-If you want a PDF to appear automatically in GitHub Releases after every push, add this job to `deploy.yml`:
-
-```yaml
-  generate-pdf:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: npm install -g @puppeteer/browsers && npx @puppeteer/browsers install chrome
-
-      - name: Generate PDF
-        run: |
-          node -e "
-          const puppeteer = require('puppeteer');
-          (async () => {
-            const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-            const page = await browser.newPage();
-            await page.goto('file://' + process.cwd() + '/index.html', { waitUntil: 'networkidle0' });
-            await page.pdf({ path: 'resume.pdf', format: 'A4', printBackground: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
-            await browser.close();
-          })();
-          "
-
-      - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: resume-pdf
-          path: resume.pdf
+├── src/                    # everything that ships as-is
+│   ├── index.html          # homepage
+│   ├── resume/index.html   # /resume
+│   ├── contact/index.html  # /contact
+│   ├── 404.html
+│   ├── assets/{css,js,fonts,img}/
+│   ├── _headers
+│   └── robots.txt
+├── content/posts/*.md      # blog posts — the only files you touch for writing
+├── templates/               # post.html / blog-index.html, filled by build.mjs
+├── build.mjs                # the entire build: copies src/, renders posts, writes sitemap.xml
+└── PLAN.md                  # design spec, all decisions, and the v2 roadmap
 ```

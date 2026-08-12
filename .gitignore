@@ -1,0 +1,5 @@
+node_modules/
+dist/
+dist-stale-*/
+.DS_Store
+PLAN.md

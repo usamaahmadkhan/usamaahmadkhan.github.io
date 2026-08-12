@@ -1,0 +1,14 @@
+{
+  "name": "usama-ahmad-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal site — infra/SRE dashboard portfolio, résumé, and blog.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && npx --yes serve dist -l 8080"
+  },
+  "dependencies": {
+    "marked": "^12.0.0"
+  }
+}

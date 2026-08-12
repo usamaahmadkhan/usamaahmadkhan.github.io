@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://usamaahmadkhan.dev/sitemap.xml

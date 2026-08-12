@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <script src="/assets/js/theme-init.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résumé — Usama Ahmad</title>
+  <meta name="description" content="ATS-friendly résumé for Usama Ahmad, Senior Infrastructure Engineer. Printable to PDF." />
+  <link rel="canonical" href="https://usamaahmadkhan.dev/resume/" />
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="/assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/jbmono-700.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/css/site.css" />
+  <link rel="stylesheet" href="/assets/css/print.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav__inner shell">
+    <a class="nav__brand" href="/">usama<span class="muted">@</span>Infrastructure.engineer<span class="cursor" aria-hidden="true">_</span></a>
+    <div class="nav__links" style="margin-left:auto">
+      <a href="/#experience">Experience</a>
+      <a href="/blog/">Blog</a>
+      <a href="/">Home</a>
+    </div>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme" title="Toggle color theme">
+      <svg class="theme-toggle__dark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+      <svg class="theme-toggle__light-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+  </div>
+</nav>
+
+<main id="main" class="shell resume-page">
+
+  <div class="resume-actions">
+    <button class="btn btn--accent" type="button" data-print>Download PDF</button>
+    <span class="hint">Ctrl+P / Cmd+P → Save as PDF · Paper: A4 · Background graphics: on</span>
+  </div>
+
+  <header class="r-header">
+    <div>
+      <h1>Usama Ahmad</h1>
+      <div class="role">Senior Infrastructure Engineer · 9+ years experience</div>
+    </div>
+    <div class="r-contact">
+      <div><a data-email-link href="#">·</a></div>
+      <div><a href="https://www.linkedin.com/in/usamaahmadkhan">linkedin.com/in/usamaahmadkhan</a></div>
+      <div><a href="https://github.com/usamaahmadkhan">github.com/usamaahmadkhan</a></div>
+    </div>
+  </header>
+
+  <section class="r-section">
+    <h2>Professional Summary</h2>
+    <p class="r-summary">
+      Senior Infrastructure Engineer with 9+ years of experience building and operating large-scale EKS clusters,
+      Istio service mesh, and AWS infrastructure. Proficient in Python/Bash tooling, Terraform, and
+      ArgoCD-driven GitOps workflows. Proven track record of partnering with engineering teams to improve
+      microservices scalability, stability, and observability across production environments.
+    </p>
+  </section>
+
+  <section class="r-section">
+    <h2>Technical Skills</h2>
+    <div class="r-skills">
+      <div><span class="r-skill-label">Cloud &amp; Orchestration:</span> AWS EKS, GCP GKE, Kubernetes, OpenShift, VPC/VPN, IAM, EC2, ELB, Route53, KMS, CloudWatch, CloudTrail</div>
+      <div><span class="r-skill-label">Service Mesh &amp; Gateway:</span> Istio, Linkerd, Envoy, Kong, GatewayAPI</div>
+      <div><span class="r-skill-label">CI/CD &amp; GitOps:</span> ArgoCD, GitHub Actions, Jenkins, Tekton, Flux, Helm, Nexus</div>
+      <div><span class="r-skill-label">IaC &amp; Platform:</span> Terraform, Crossplane, Ansible</div>
+      <div><span class="r-skill-label">Observability:</span> Prometheus, Grafana, AlertManager, EFK Stack, Dynatrace</div>
+      <div><span class="r-skill-label">Security &amp; Secrets:</span> Vault, Cert-Manager, ExternalSecrets, SealedSecrets, OPA, Cloudflare, WAF</div>
+      <div><span class="r-skill-label">Languages:</span> Python, Bash, Golang, C</div>
+    </div>
+  </section>
+
+  <section class="r-section">
+    <h2>Professional Experience</h2>
+
+    <div class="r-exp">
+      <div class="r-exp-head">
+        <span class="r-company">Careem Technologies</span>
+        <span class="r-date">Dec 2023 – Present</span>
+      </div>
+      <div class="r-role">Senior Site Reliability Engineer</div>
+      <ul class="bullets">
+        <li><strong>AWS cost optimization</strong> — Redesigned cross-account traffic with flat networking, eliminating 25% of daily infrastructure spend.</li>
+        <li><strong>Istio service mesh migration</strong> — Designed cross-cluster mTLS certificate management on EKS for secure service-to-service communication; automated GatewayAPI rollouts with Helm charts and built production-readiness playbooks with rollback paths.</li>
+        <li><strong>Global hostname architecture</strong> — Strategized a cross-account hostname strategy on AWS to reduce latency and architectural complexity.</li>
+        <li><strong>GitOps delivery with ArgoCD</strong> — Designed a multi-tenant ArgoCD framework to isolate team operations and reduce operational toil.</li>
+        <li><strong>Python &amp; Bash tooling</strong> — Integrated AWS Secrets Manager dynamically into CI/CD pipelines; automated contract validation in testing workflows.</li>
+        <li><strong>Secure AWS VPN architecture</strong> — Built end-to-end partner integration using VPN, VPC peering, Route53, IAM, and ELB.</li>
+        <li><strong>On-call SRE</strong> — Resolved production incidents, authored postmortems and runbooks, and built Prometheus/Grafana/AlertManager dashboards to reduce MTTR.</li>
+      </ul>
+    </div>
+
+    <div class="r-exp">
+      <div class="r-exp-head">
+        <span class="r-company">Stakater Inc.</span>
+        <span class="r-date">Mar 2019 – Nov 2023</span>
+      </div>
+
+      <div class="r-sub">
+        <div class="r-sub-head">
+          <span class="r-role" style="margin:0">Team Lead, Consultation APAC (Kubernetes)</span>
+          <span class="r-date">Jul 2022 – Nov 2023</span>
+        </div>
+        <ul class="bullets">
+          <li><strong>Cross-functional delivery lead</strong> — Primary technical contact across internal teams, partners, and customers; drove projects from scoping to production handoff.</li>
+          <li><strong>RedHat consultations</strong> — Delivered Kubernetes (EKS/OpenShift) engagements for clients in education, e-commerce, banking, and telecom across APAC and EMEA.</li>
+          <li><strong>Founded PaaS team</strong> — Built a Managed Kubernetes service team from scratch to meet committed SLAs.</li>
+          <li><strong>Product &amp; people leadership</strong> — Defined multiple product lines from inception to production readiness while mentoring engineers.</li>
+        </ul>
+      </div>
+
+      <div class="r-sub">
+        <div class="r-sub-head">
+          <span class="r-role" style="margin:0">Senior DevOps Engineer</span>
+          <span class="r-date">Jan 2021 – Jun 2022</span>
+        </div>
+        <ul class="bullets">
+          <li><strong>Managed Kubernetes platform</strong> — Architected the company's multi-cloud EKS/GKE/AKS/OpenShift offering.</li>
+          <li><strong>Multi-tenant RBAC &amp; IAM</strong> — Designed customized access controls for Kubernetes clusters at scale.</li>
+          <li><strong>GitOps for Professional Services</strong> — Deployed ArgoCD-based workflows across customers' production environments.</li>
+          <li><strong>Infrastructure automation</strong> — Used Terraform to manage deployments across AWS and on-prem environments.</li>
+        </ul>
+      </div>
+
+      <div class="r-sub">
+        <div class="r-sub-head">
+          <span class="r-role" style="margin:0">DevOps Engineer</span>
+          <span class="r-date">Mar 2019 – Dec 2020</span>
+        </div>
+        <ul class="bullets">
+          <li><strong>Production cluster operations</strong> — Operated EKS, GKE, AKS, and OpenShift for high-availability microservices across AWS, GCP, and Azure.</li>
+          <li><strong>Open source contributions</strong> — Built features and fixes for Golang projects including Reloader and Ingress Monitor Controller.</li>
+          <li><strong>Observability &amp; CI/CD platform</strong> — Implemented Prometheus/Grafana, ArgoCD delivery, and Vault-based secrets management across production clusters.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="r-exp">
+      <div class="r-exp-head">
+        <span class="r-company">xFlow Research</span>
+        <span class="r-date">Nov 2017 – Mar 2019</span>
+      </div>
+      <div class="r-role">Network Security Engineer</div>
+      <ul class="bullets">
+        <li><strong>High-throughput packet processing</strong> — Built network solutions in Python and C with MariaDB at 40 Gbps line rate.</li>
+        <li><strong>Virtual BNG development</strong> — Developed Virtual Broadband Network Gateway modules using Python and C.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="r-section">
+    <h2>Certifications</h2>
+    <div class="r-certs">
+      <div class="r-cert">AWS Certified Solutions Architect – Associate</div>
+      <div class="r-cert">Certified Kubernetes Administrator (CKA)</div>
+      <div class="r-cert">RedHat Certified System Administrator (RHCSA)</div>
+      <div class="r-cert">RedHat Certified Engineer (RHCE)</div>
+      <div class="r-cert">RedHat Certified Specialist in OpenShift Administration</div>
+      <div class="r-cert">RedHat Certified Specialist in API Management</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="audio-widget" data-audio-widget>
+  <button class="audio-widget__toggle" type="button" data-audio-toggle aria-pressed="false" aria-label="Toggle background audio">
+    <span class="audio-widget__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <input class="audio-widget__volume" type="range" min="0" max="100" value="35" data-audio-volume aria-label="Background audio volume" />
+</div>
+
+<script src="/assets/js/site.js"></script>
+</body>
+</html>
