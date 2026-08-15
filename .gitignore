@@ -1,5 +1,6 @@
 node_modules/
 dist/
 dist-stale-*/
+.shots/
 .DS_Store
 PLAN.md

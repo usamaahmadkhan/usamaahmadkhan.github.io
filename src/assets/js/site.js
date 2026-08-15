@@ -194,6 +194,72 @@ function wireImpactCounters() {
 }
 
 /* --------------------------------------------------------------------------
+   Training section (D25) — fetches a curated activity snapshot and reveals
+   the section only if the data exists and is fresh. Missing/stale/404 -> the
+   section stays hidden, so a broken sync degrades silently rather than lying.
+   No body-composition data is ever published (privacy, see PLAN.md V2-A).
+   -------------------------------------------------------------------------- */
+
+const TRAINING_MAX_AGE_DAYS = 10;
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+async function wireTraining() {
+  const section = document.querySelector('#training');
+  if (!section) return;
+
+  let data;
+  try {
+    const res = await fetch('/assets/data/training.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    data = await res.json();
+  } catch {
+    return; // no data yet — leave hidden
+  }
+
+  if (!data || !data.updated) return; // placeholder / no snapshot — leave hidden
+
+  const ageDays = (Date.now() - new Date(data.updated).getTime()) / 86400000;
+  if (!Number.isFinite(ageDays) || ageDays > TRAINING_MAX_AGE_DAYS) return; // stale — leave hidden
+
+  const set = (sel, text) => { const el = section.querySelector(sel); if (el) el.textContent = text; };
+  set('[data-train-id]', data.session_id || '—');
+  set('[data-train-day]', data.day || '');
+  set('[data-train-target]', data.target || '');
+  set('[data-train-focus]', data.focus || '');
+  set('[data-train-sets]', `${Number(data.total_sets) || 0} TOTAL SETS`);
+
+  const grid = section.querySelector('[data-train-grid]');
+  if (grid && Array.isArray(data.exercises)) {
+    grid.innerHTML = data.exercises.map((ex, i) => {
+      const sets = Number(ex.sets) || 0;
+      return `<div class="train__card">
+        <div class="train__num">${String(i + 1).padStart(2, '0')}</div>
+        <div class="train__name">${esc(ex.name)}</div>
+        <div class="train__sets"><span class="train__setbar"></span>${sets} SETS</div>
+      </div>`;
+    }).join('');
+  }
+
+  // light up worked muscle groups on the body map
+  if (Array.isArray(data.muscles)) {
+    for (const m of data.muscles) {
+      section.querySelectorAll(`[data-muscle="${CSS.escape(String(m))}"]`).forEach((el) => el.classList.add('is-active'));
+    }
+  }
+
+  const updated = section.querySelector('[data-training-updated]');
+  if (updated) {
+    const d = Math.round(ageDays);
+    updated.textContent = d <= 0 ? 'updated today' : `updated ${d}d ago`;
+  }
+
+  section.hidden = false;
+}
+
+/* --------------------------------------------------------------------------
    Theme toggle (D55) — data-theme attribute already resolved pre-paint by
    theme-init.js; this just handles the click and persists the choice.
    -------------------------------------------------------------------------- */
@@ -276,4 +342,5 @@ wireScrollProgress();
 wireReveal();
 wireImpactCounters();
 wireThemeToggle();
+wireTraining();
 wireAudio();

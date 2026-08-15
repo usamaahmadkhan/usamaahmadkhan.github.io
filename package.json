@@ -6,9 +6,13 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "dev": "node build.mjs && npx --yes serve dist -l 8080"
+    "dev": "node build.mjs && npx --yes serve dist -l 8080",
+    "check": "node build.mjs && node scripts/check.mjs"
   },
   "dependencies": {
     "marked": "^12.0.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.6.0"
   }
 }

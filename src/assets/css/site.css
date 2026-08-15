@@ -537,8 +537,9 @@ section[id] + section[id] { padding-top: 0; }
   overflow: hidden;
 }
 
+/* auto-fit so 3 or 4 cells both fill the row cleanly (D53 content may vary) */
 @media (min-width: 640px) {
-  .impact-grid { grid-template-columns: repeat(4, 1fr); }
+  .impact-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 }
 
 .impact-cell {
@@ -562,6 +563,171 @@ section[id] + section[id] { padding-top: 0; }
   line-height: 1.5;
   color: var(--text-muted);
 }
+
+/* Training — D25, Hevy-style workout feed. Green accent = --ok (themed both
+   modes). Left column: live-feed bar, target head, exercise cards. Right: body
+   scan map with the worked muscle group lit. */
+.train {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+
+@media (min-width: 820px) {
+  .train { grid-template-columns: 1fr minmax(240px, 340px); }
+}
+
+.train__feedbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap);
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  color: var(--ok);
+}
+
+.train__pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok);
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+
+.train__id { color: var(--text-muted); }
+
+.train__head { margin-top: 1.1rem; }
+
+.train__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.train__badge {
+  padding: 0.1rem 0.5rem;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.train__target {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--step-4);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0.4rem 0 0.5rem;
+}
+
+.train__focus {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+
+.train__focus::before { content: '\1F3CB  '; }
+
+.train__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.train__card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  padding: 0.8rem 0.9rem 0.7rem;
+}
+
+.train__num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.train__name {
+  font-weight: 600;
+  font-size: var(--step-0);
+  margin: 0.35rem 0 0.7rem;
+  line-height: 1.3;
+}
+
+.train__sets {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.train__setbar {
+  width: 4px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--ok);
+  flex: none;
+}
+
+.train__side {
+  display: flex;
+  flex-direction: column;
+}
+
+.train__scan {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--ok);
+  margin-bottom: 0.5rem;
+}
+
+.train__scan span:last-child { color: var(--text-muted); }
+
+.train__map {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+}
+
+.train__map svg { width: auto; height: 460px; max-height: 60vh; max-width: 100%; }
+
+/* low-poly body: facet seams via a dark stroke, worked group lit bright */
+.bodymap [data-muscle],
+.bodymap .bodymap__base {
+  fill: var(--border);
+  stroke: var(--bg);
+  stroke-width: 0.4;
+  stroke-linejoin: round;
+}
+
+.bodymap [data-muscle].is-active { fill: var(--text); }
 
 /* --------------------------------------------------------------------------
    10. Experience — minimal deploy timeline (D28)

@@ -14,9 +14,15 @@ rendering. See [PLAN.md](PLAN.md) for the full design spec and the list of decis
 npm install
 npm run build   # renders content/posts/*.md -> dist/, copies src/ -> dist/
 npm run dev     # build + serve dist/ at http://localhost:8080
+npm run check   # build + headless-Chrome render test, screenshots to .shots/
 ```
 
 `dist/` is generated and gitignored — never edit it directly.
+
+`npm run check` drives an installed Chrome/Edge via `puppeteer-core` (a dev-only
+dependency — the site itself ships only `marked`). It asserts zero console
+errors per page plus a few interactions, and writes full-page screenshots to
+`.shots/` for a visual pass.
 
 ## Editing content
 

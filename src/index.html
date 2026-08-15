@@ -82,7 +82,7 @@
     <p class="hero__lede lede reveal">
       I design and operate infrastructure at scale — Kubernetes platforms, service mesh, and cloud
       networking across AWS, GCP, and Azure — with GitOps delivery, infrastructure as code, and
-      observability powered by AI infrastruecture built in from day one.
+      observability powered by AI infrastructure built in from day one.
     </p>
 
     <div class="hero__actions reveal">
@@ -399,6 +399,96 @@
         <span class="certlist__issuer">Red Hat</span>
       </li>
     </ul>
+  </section>
+
+  <!-- ============================ TRAINING =============================== -->
+  <!-- D25: populated + revealed by wireTraining() only when a fresh
+       /assets/data/training.json exists; stays hidden otherwise. -->
+  <section id="training" class="shell" aria-label="Training" hidden>
+    <div class="section-head">
+      <h2>training<span class="cursor" aria-hidden="true">_</span></h2>
+      <span class="meta" data-training-updated></span>
+    </div>
+
+    <div class="train">
+      <div class="train__main">
+        <div class="train__feedbar">
+          <span><span class="train__pulse" aria-hidden="true"></span>TRAINING · LIVE_FEED</span>
+          <span class="train__id">ID: <span data-train-id></span></span>
+        </div>
+
+        <div class="train__head">
+          <div class="train__meta"><span class="train__badge">TARGET</span> <span data-train-day></span></div>
+          <div class="train__target" data-train-target></div>
+          <div class="train__focus" data-train-focus></div>
+        </div>
+
+        <div class="train__grid" data-train-grid></div>
+      </div>
+
+      <aside class="train__side">
+        <div class="train__scan"><span>BIO_SCAN</span> <span data-train-sets></span></div>
+        <div class="train__map">
+          <!-- low-poly anatomical figure: each muscle group is a cluster of
+               facets so lighting a group reads as sculpted, not as a block -->
+          <!-- anterior muscle map: discrete anatomical shapes per group -->
+          <svg class="bodymap" viewBox="0 0 100 200" role="img" aria-label="Muscle groups worked">
+            <!-- head -->
+            <polygon class="bodymap__base" points="42.45,2.86 40,11.84 42.04,19.59 46.12,23.27 49.80,25.31 54.69,22.45 57.55,19.18 59.18,10.20 57.14,2.45 49.80,0" />
+
+            <!-- traps + delts -->
+            <polygon data-muscle="shoulders" points="55.51,23.67 50.61,33.47 50.61,39.18 61.63,40 70.61,44.90 69.39,36.73 63.27,35.10 58.37,30.61" />
+            <polygon data-muscle="shoulders" points="28.98,44.90 30.20,37.14 36.33,35.10 41.22,30.20 44.49,24.49 48.98,33.88 48.57,39.18 37.96,39.59" />
+            <polygon data-muscle="shoulders" points="78.37,53.06 79.59,47.76 79.18,41.22 75.92,37.96 71.02,36.33 72.24,42.86 71.43,47.35" />
+            <polygon data-muscle="shoulders" points="28.16,47.35 21.22,53.06 20,47.76 20.41,40.82 24.49,37.14 28.57,37.14 26.94,43.27" />
+
+            <!-- pecs -->
+            <polygon data-muscle="chest" points="51.84,41.63 51.02,55.10 57.96,57.96 67.76,55.51 70.61,47.35 62.04,41.63" />
+            <polygon data-muscle="chest" points="29.80,46.53 31.43,55.51 40.82,57.96 48.16,55.10 47.76,42.04 37.55,42.04" />
+
+            <!-- abs + obliques -->
+            <polygon data-muscle="core" points="56.33,59.18 57.96,64.08 58.37,77.96 58.37,92.65 56.33,98.37 55.10,104.08 51.43,107.76 51.02,84.49 50.61,67.35 51.02,57.14" />
+            <polygon data-muscle="core" points="43.67,58.78 48.57,57.14 48.98,67.35 48.57,84.49 48.16,107.35 44.49,103.67 40.82,91.43 40.82,78.37 41.22,64.49" />
+            <polygon data-muscle="core" points="68.57,63.27 67.35,57.14 58.78,59.59 60,64.08 60.41,83.27 65.71,78.78 66.53,69.80" />
+            <polygon data-muscle="core" points="33.88,78.37 33.06,71.84 31.02,63.27 32.24,57.14 40.82,59.18 39.18,63.27 39.18,83.67" />
+
+            <!-- biceps / triceps -->
+            <polygon data-muscle="arms" points="16.73,68.16 17.96,71.43 22.86,66.12 28.98,53.88 27.76,49.39 20.41,55.92" />
+            <polygon data-muscle="arms" points="71.43,49.39 70.20,54.69 76.33,66.12 81.63,71.84 82.86,68.98 78.78,55.51" />
+            <polygon data-muscle="arms" points="69.39,55.51 69.39,61.63 75.92,72.65 77.55,70.20 75.51,67.35" />
+            <polygon data-muscle="arms" points="22.45,69.39 29.80,55.51 29.80,60.82 22.86,73.06" />
+
+            <!-- forearms -->
+            <polygon data-muscle="arms" points="6.12,88.57 10.20,75.10 14.69,70.20 16.33,74.29 19.18,73.47 4.49,97.55 0,100" />
+            <polygon data-muscle="arms" points="84.49,69.80 83.27,73.47 80,73.06 95.10,98.37 100,100.41 93.47,89.39 89.80,76.33" />
+            <polygon data-muscle="arms" points="77.55,72.24 77.55,77.55 80.41,84.08 85.31,89.80 92.24,101.22 94.69,99.59" />
+            <polygon data-muscle="arms" points="6.94,101.22 13.47,90.61 18.78,84.08 21.63,77.14 21.22,71.84 4.90,98.78" />
+
+            <!-- adductors -->
+            <polygon data-muscle="legs" points="52.65,110.20 54.29,124.90 60,110.20 62.04,100 64.90,94.29 60,92.65 56.73,104.49" />
+            <polygon data-muscle="legs" points="47.76,110.61 44.90,125.31 42.04,115.92 40.41,113.06 39.59,107.35 37.96,102.45 34.69,93.88 39.59,92.24 41.63,99.18 43.67,105.31" />
+
+            <!-- quads -->
+            <polygon data-muscle="legs" points="34.69,98.78 37.14,108.16 37.14,127.76 34.29,137.14 31.02,132.65 29.39,120 28.16,111.43 29.39,100.82 32.24,94.69" />
+            <polygon data-muscle="legs" points="63.27,105.71 64.49,100 66.94,94.69 70.20,101.22 71.02,111.84 68.16,133.06 65.31,137.55 62.45,128.57 62.04,111.43" />
+            <polygon data-muscle="legs" points="38.78,129.39 38.37,112.24 41.22,118.37 44.49,129.39 42.86,135.10 40,146.12 36.33,146.53 35.51,140" />
+            <polygon data-muscle="legs" points="59.59,145.71 55.51,128.98 60.82,113.88 61.22,130.20 64.08,139.59 62.86,146.53" />
+            <polygon data-muscle="legs" points="32.65,138.37 26.53,145.71 25.71,136.73 25.71,127.35 26.94,114.29 29.39,133.47" />
+            <polygon data-muscle="legs" points="71.84,113.06 73.88,124.08 73.88,140.41 72.65,145.71 66.53,138.37 70.20,133.47" />
+
+            <!-- knees -->
+            <polygon data-muscle="legs" points="33.88,140 34.69,143.27 35.51,147.35 36.33,151.02 35.10,156.73 29.80,156.73 27.35,152.65 27.35,147.35 30.20,144.08" />
+            <polygon data-muscle="legs" points="65.71,140 72.24,147.76 72.24,152.24 69.80,157.14 64.90,156.73 62.86,151.02" />
+
+            <!-- calves / shins -->
+            <polygon data-muscle="legs" points="71.43,160.41 73.47,153.47 76.73,161.22 79.59,167.76 78.37,187.76 79.59,195.51 74.69,195.51" />
+            <polygon data-muscle="legs" points="24.90,194.69 27.76,164.90 28.16,160.41 26.12,154.29 24.90,157.55 22.45,161.63 20.82,167.76 22.04,188.16 20.82,195.51" />
+            <polygon data-muscle="legs" points="72.65,195.10 69.80,159.18 65.31,158.37 64.08,162.45 64.08,165.31 65.71,177.14" />
+            <polygon data-muscle="legs" points="35.51,158.37 35.92,162.45 35.92,166.94 35.10,172.24 35.10,176.73 32.24,182.04 30.61,187.35 26.94,194.69 27.35,187.76 28.16,180.41 28.57,175.51 28.98,169.80 29.80,164.08 30.20,158.78" />
+          </svg>
+        </div>
+      </aside>
+    </div>
   </section>
 
 </main>

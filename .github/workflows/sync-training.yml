@@ -1,0 +1,42 @@
+name: Sync training data
+
+# D25 / PLAN.md V2-A. Inert until scripts/sync-training.mjs is finished and a
+# CALIBER_TOKEN repo secret is set — fetchCaliber() throws today, so this fails
+# loudly rather than silently writing nothing. That's intended: a red run is the
+# signal it's not wired up yet. The site handles a missing snapshot by hiding
+# the Training section, so a failed sync never breaks the published page.
+
+on:
+  schedule:
+    - cron: '0 22 * * *' # 22:00 UTC = 03:00 Asia/Karachi (UTC+5, no DST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch + write snapshot
+        env:
+          CALIBER_TOKEN: ${{ secrets.CALIBER_TOKEN }}
+        run: node scripts/sync-training.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- src/assets/data/training.json; then
+            git add src/assets/data/training.json
+            git commit -m "chore: sync training data"
+            git push
+          else
+            echo "no change"
+          fi
