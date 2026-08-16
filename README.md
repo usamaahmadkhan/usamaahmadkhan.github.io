@@ -59,32 +59,38 @@ until you flip it back).
 
 ## Deploying (GitHub Pages)
 
+The site is served from the **domain root**, which on GitHub Pages requires the repo to
+be named `<user>.github.io`.
+
 One-time setup:
 
-1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+1. **Rename the repo to `usamaahmadkhan.github.io`** (Settings → General → Repository
+   name). A repo named anything else is a *project* site and is served from
+   `/<repo>` instead of `/`. GitHub redirects the old name, so existing clones keep
+   working; update your remote with
+   `git remote set-url origin git@github.com:usamaahmadkhan/usamaahmadkhan.github.io.git`.
+2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
    (Not "Deploy from a branch" — the site is built, not committed.)
-2. Push to `main`. [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds
+3. Push to `main`. [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds
    and publishes automatically.
 
-Live at **https://usamaahmadkhan.github.io/resume/**.
+Live at **https://usamaahmadkhan.github.io/**.
 
-### Why the build takes a base path
+> Only one `<user>.github.io` repo is allowed per account, so this repo takes that slot.
 
-This is a *project* page, so the site is served from `/resume`, not the domain root.
-Every root-absolute URL in `src/` (`/assets/…`, `/blog/`, `/contact/`) has to gain that
-prefix or it 404s. `build.mjs` does the rewrite, driven by two env vars the workflow
-supplies from the Pages config:
+### Path handling
 
-| Env var | Local default | On GitHub Pages |
+Because the site sits at the root, no path prefix is applied. The build still supports
+one, so nothing breaks if it's ever hosted from a differently-named repo:
+
+| Env var | Default (root) | If served from a subpath |
 |---|---|---|
-| `BASE_PATH` | `""` (serves at `/`) | `/resume` |
-| `SITE_URL` | `https://usamaahmadkhan.github.io/resume` | same, from Pages config |
+| `BASE_PATH` | `""` | e.g. `/resume` — rewrites every root-absolute URL |
+| `SITE_URL` | `https://usamaahmadkhan.github.io` | origin + subpath |
 
-Nothing is hardcoded to the repo name, so this keeps working if you rename the repo,
-move to `usamaahmadkhan.github.io`, or attach a custom domain — `BASE_PATH` just
-becomes empty again.
-
-To reproduce a production build locally:
+Both are supplied by the workflow from `actions/configure-pages` output rather than
+hardcoded, so a rename or a custom domain needs no source change. To reproduce a
+subpath build locally:
 
 ```bash
 BASE_PATH=/resume npm run build   # then serve dist/ under a /resume path

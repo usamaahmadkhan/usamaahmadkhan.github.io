@@ -12,13 +12,12 @@ const CONTENT = join(root, 'content', 'posts');
 const TEMPLATES = join(root, 'templates');
 const DIST = join(root, 'dist');
 
-// GitHub Pages project sites are served from a subpath
-// (usamaahmadkhan.github.io/resume), so every root-absolute URL the source
-// writes — /assets/…, /blog/, /contact/ — has to gain that prefix at build
-// time or 404. BASE_PATH is empty locally (site serves at /) and set by the
-// deploy workflow. Move to a custom domain or a <user>.github.io repo and both
-// of these go back to their defaults with no source changes.
-const SITE_URL = (process.env.SITE_URL || 'https://usamaahmadkhan.github.io/resume').replace(/\/$/, '');
+// The site is served from the domain root, so no path prefix is needed and
+// BASE is empty. Both values are still overridable because GitHub Pages serves
+// *project* repos from /<repo> — if this is ever hosted from a repo not named
+// <user>.github.io, the deploy workflow passes that subpath in and every
+// root-absolute URL (/assets/…, /blog/, /contact/) gets rewritten to match.
+const SITE_URL = (process.env.SITE_URL || 'https://usamaahmadkhan.github.io').replace(/\/$/, '');
 const BASE = (process.env.BASE_PATH || '').replace(/\/$/, '');
 
 // The source files hardcode this origin in canonical/OG tags; it's swapped for
