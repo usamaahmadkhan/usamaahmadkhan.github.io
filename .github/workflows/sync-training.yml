@@ -1,14 +1,18 @@
 name: Sync training data
 
-# D25 / PLAN.md V2-A. Inert until scripts/sync-training.mjs is finished and a
-# CALIBER_TOKEN repo secret is set — fetchCaliber() throws today, so this fails
-# loudly rather than silently writing nothing. That's intended: a red run is the
-# signal it's not wired up yet. The site handles a missing snapshot by hiding
-# the Training section, so a failed sync never breaks the published page.
+# D25 / PLAN.md V2-A. Needs a CALIBER_REFRESH_TOKEN repo secret — obtain it by
+# running `node scripts/caliber-auth.mjs` locally once (Caliber uses OAuth, not
+# an API key). Until then this fails loudly rather than silently writing
+# nothing, which is intended: a red run is the signal it isn't wired up yet.
+# The site hides the Training section when the snapshot is missing or stale, so
+# a failed sync never breaks the published page.
 
 on:
-  schedule:
-    - cron: '0 22 * * *' # 22:00 UTC = 03:00 Asia/Karachi (UTC+5, no DST)
+  # Schedule is deliberately disabled: no data source is wired up, so a nightly
+  # run would just fail every day and mail about it. Re-enable by uncommenting
+  # once a provider is chosen (PLAN.md V2-A).
+  # schedule:
+  #   - cron: '0 22 * * *' # 22:00 UTC = 03:00 Asia/Karachi (UTC+5, no DST)
   workflow_dispatch:
 
 permissions:
@@ -26,7 +30,7 @@ jobs:
 
       - name: Fetch + write snapshot
         env:
-          CALIBER_TOKEN: ${{ secrets.CALIBER_TOKEN }}
+          CALIBER_REFRESH_TOKEN: ${{ secrets.CALIBER_REFRESH_TOKEN }}
         run: node scripts/sync-training.mjs
 
       - name: Commit if changed

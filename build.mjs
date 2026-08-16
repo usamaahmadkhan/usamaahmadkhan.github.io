@@ -11,7 +11,31 @@ const SRC = join(root, 'src');
 const CONTENT = join(root, 'content', 'posts');
 const TEMPLATES = join(root, 'templates');
 const DIST = join(root, 'dist');
-const SITE_URL = 'https://usamaahmadkhan.dev';
+
+// GitHub Pages project sites are served from a subpath
+// (usamaahmadkhan.github.io/resume), so every root-absolute URL the source
+// writes — /assets/…, /blog/, /contact/ — has to gain that prefix at build
+// time or 404. BASE_PATH is empty locally (site serves at /) and set by the
+// deploy workflow. Move to a custom domain or a <user>.github.io repo and both
+// of these go back to their defaults with no source changes.
+const SITE_URL = (process.env.SITE_URL || 'https://usamaahmadkhan.github.io/resume').replace(/\/$/, '');
+const BASE = (process.env.BASE_PATH || '').replace(/\/$/, '');
+
+// The source files hardcode this origin in canonical/OG tags; it's swapped for
+// the real SITE_URL at build time so the deploy target isn't baked into src/.
+const SRC_ORIGIN = 'https://usamaahmadkhan.dev';
+
+// Rewrites the origin, then pushes root-absolute URLs under BASE. The negative
+// lookahead skips protocol-relative URLs (//cdn…) so they aren't mangled.
+function withBase(text) {
+  let out = text.split(SRC_ORIGIN).join(SITE_URL);
+  if (BASE) {
+    out = out
+      .replace(/((?:href|src)=")\/(?!\/)/g, `$1${BASE}/`)
+      .replace(/((?:import|fetch)\(\s*['"])\/(?!\/)/g, `$1${BASE}/`);
+  }
+  return out;
+}
 
 function log(msg) { console.log(`[build] ${msg}`); }
 
@@ -39,6 +63,21 @@ if (existsSync(DIST)) {
 }
 cpSync(SRC, DIST, { recursive: true });
 log(`copied src/ -> dist/`);
+
+// Fix up everything copied verbatim from src/ — origin swap always, base-path
+// prefix when deploying to a subpath. Rendered blog pages get the same
+// treatment later, as they're written.
+const rewriteTree = (dir) => {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, entry.name);
+    if (entry.isDirectory()) rewriteTree(p);
+    else if (/\.(html|js|xml|txt)$/.test(entry.name)) {
+      writeFileSync(p, withBase(readFileSync(p, 'utf8')), 'utf8');
+    }
+  }
+};
+rewriteTree(DIST);
+log(`site url ${SITE_URL}${BASE ? `, base path ${BASE}` : ''}`);
 
 // --------------------------------------------------------------------------
 // 2. Frontmatter parser — deliberately tiny, not a YAML library
@@ -133,7 +172,7 @@ for (const post of posts) {
 
   const outDir = join(DIST, 'blog', post.slug);
   mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, 'index.html'), page, 'utf8');
+  writeFileSync(join(outDir, 'index.html'), withBase(page), 'utf8');
   log(`rendered blog/${post.slug}/`);
 }
 
@@ -154,7 +193,7 @@ const indexPage = fill(indexTemplate, {
 });
 
 mkdirSync(join(DIST, 'blog'), { recursive: true });
-writeFileSync(join(DIST, 'blog', 'index.html'), indexPage, 'utf8');
+writeFileSync(join(DIST, 'blog', 'index.html'), withBase(indexPage), 'utf8');
 log(`rendered blog/index.html (${posts.length} posts)`);
 
 // --------------------------------------------------------------------------
@@ -173,5 +212,7 @@ ${allRoutes.map((route) => `  <url><loc>${SITE_URL}${route}</loc></url>`).join('
 
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap, 'utf8');
 log(`wrote sitemap.xml (${allRoutes.length} routes)`);
+
+writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
 
 log('build complete');

@@ -52,24 +52,54 @@ errors per page plus a few interactions, and writes full-page screenshots to
    ```
 
 2. Run `npm run build` to preview it locally at `/blog/my-post/`.
-3. Commit and push — Cloudflare Pages runs the same build.
+3. Commit and push — the deploy workflow runs the same build.
 
 Set `draft: true` to keep a post out of the build entirely (it won't appear in `dist/`
 until you flip it back).
 
-## Deploying (Cloudflare Pages)
+## Deploying (GitHub Pages)
 
-1. Push this repo to GitHub.
-2. Cloudflare dashboard → **Workers & Pages** → **Create** → connect the repo.
-3. Build settings:
-   - Build command: `npm ci && npm run build`
-   - Build output directory: `dist`
-   - Node version: 20 or later
-4. First deploy publishes to a `*.pages.dev` URL. Add a custom domain under
-   **Custom domains** once you've registered one — see PLAN.md for domain candidates.
+One-time setup:
 
-`_headers` (security headers, asset caching) and `_redirects` are picked up automatically
-from `dist/` by Cloudflare Pages; nothing else to configure.
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+   (Not "Deploy from a branch" — the site is built, not committed.)
+2. Push to `main`. [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds
+   and publishes automatically.
+
+Live at **https://usamaahmadkhan.github.io/resume/**.
+
+### Why the build takes a base path
+
+This is a *project* page, so the site is served from `/resume`, not the domain root.
+Every root-absolute URL in `src/` (`/assets/…`, `/blog/`, `/contact/`) has to gain that
+prefix or it 404s. `build.mjs` does the rewrite, driven by two env vars the workflow
+supplies from the Pages config:
+
+| Env var | Local default | On GitHub Pages |
+|---|---|---|
+| `BASE_PATH` | `""` (serves at `/`) | `/resume` |
+| `SITE_URL` | `https://usamaahmadkhan.github.io/resume` | same, from Pages config |
+
+Nothing is hardcoded to the repo name, so this keeps working if you rename the repo,
+move to `usamaahmadkhan.github.io`, or attach a custom domain — `BASE_PATH` just
+becomes empty again.
+
+To reproduce a production build locally:
+
+```bash
+BASE_PATH=/resume npm run build   # then serve dist/ under a /resume path
+```
+
+### Caveat: `_headers` does nothing on GitHub Pages
+
+`src/_headers` (CSP, `X-Frame-Options`, asset caching) is a **Cloudflare Pages**
+feature. GitHub Pages does not let you set response headers, so those protections are
+inactive there. The file is kept because it costs nothing and works immediately if you
+move to Cloudflare. If the security headers matter, that move is the fix — the site
+is otherwise identical on both hosts.
+
+`.nojekyll` is included so Pages skips Jekyll, which would otherwise ignore
+underscore-prefixed paths.
 
 ## Exporting the résumé as PDF
 

@@ -7,6 +7,10 @@
 const CONFIG = {
   email: { user: 'usama.ahmad.khan', domain: 'hotmail.com' },
   audio: true,
+  // Off until a data source is chosen — the Caliber path was dropped because
+  // it needs OAuth. Flip to true once a snapshot is being written again.
+  // See PLAN.md V2-A.
+  training: false,
 };
 
 document.documentElement.classList.remove('no-js');
@@ -207,6 +211,8 @@ function esc(s) {
 }
 
 async function wireTraining() {
+  if (!CONFIG.training) return;
+
   const section = document.querySelector('#training');
   if (!section) return;
 

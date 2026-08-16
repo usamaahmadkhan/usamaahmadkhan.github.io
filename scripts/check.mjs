@@ -137,45 +137,53 @@ async function main() {
 
   await page.close();
 
-  // D25: drop a fresh fixture, reload, confirm the section reveals with values
-  await check('training section reveals with fresh data (D25)', async () => {
+  // D25 is behind CONFIG.training. While it's off the contract is "never
+  // renders, even with good data"; when it's flipped on the full reveal +
+  // muscle-highlight coverage comes back automatically.
+  const siteJs = await readFile(join(DIST, 'assets', 'js', 'site.js'), 'utf8');
+  const trainingEnabled = /training:\s*true/.test(siteJs);
+
+  const withFixture = async (fixture, fn) => {
     const dir = join(DIST, 'assets', 'data');
     await mkdir(dir, { recursive: true });
-    const fixture = { updated: new Date().toISOString(), session_id: 'TEST01', day: 'WEDNESDAY', target: 'LEGS', focus: 'Quads', muscles: ['legs'], total_sets: 6, exercises: [{ name: 'Leg Press', sets: 3 }, { name: 'Plank', sets: 3 }] };
     await writeFile(join(dir, 'training.json'), JSON.stringify(fixture));
     try {
-      const p2 = await browser.newPage();
-      await p2.setViewport({ width: 1280, height: 900 });
-      await p2.goto(base + '/', { waitUntil: 'networkidle0' });
-      const shown = await p2.$eval('#training', (el) => !el.hidden);
-      const txt = await p2.$eval('#training', (el) => el.textContent);
-      const cards = await p2.$$eval('#training .train__card', (els) => els.length);
-      const lit = await p2.$$eval('#training [data-muscle="legs"].is-active', (els) => els.length);
-      await p2.close();
-      assert.ok(shown, 'training stayed hidden with fresh data');
-      assert.ok(/LEGS/.test(txt), `target missing: ${txt}`);
-      assert.equal(cards, 2, `expected 2 exercise cards, got ${cards}`);
-      assert.ok(lit > 0, 'worked muscle group not lit on body map');
+      const p = await browser.newPage();
+      await p.setViewport({ width: 1280, height: 900 });
+      await p.goto(base + '/', { waitUntil: 'networkidle0' });
+      await fn(p);
+      await p.close();
     } finally {
       await rm(join(dir, 'training.json'), { force: true });
     }
-  });
+  };
 
-  await check('training section stays hidden with stale data (D25)', async () => {
-    const dir = join(DIST, 'assets', 'data');
-    await mkdir(dir, { recursive: true });
-    const old = new Date(Date.now() - 30 * 86400000).toISOString(); // 30d > 10d cap
-    await writeFile(join(dir, 'training.json'), JSON.stringify({ updated: old, streak_days: 12, sessions_last_30d: 18, weekly_volume: [1, 2, 3] }));
-    try {
-      const p3 = await browser.newPage();
-      await p3.goto(base + '/', { waitUntil: 'networkidle0' });
-      const hidden = await p3.$eval('#training', (el) => el.hidden);
-      await p3.close();
-      assert.equal(hidden, true, 'stale data should keep section hidden');
-    } finally {
-      await rm(join(dir, 'training.json'), { force: true });
-    }
-  });
+  const fresh = { updated: new Date().toISOString(), session_id: 'TEST01', day: 'WEDNESDAY', target: 'LEGS', focus: 'Quads', muscles: ['legs'], total_sets: 6, exercises: [{ name: 'Leg Press', sets: 3 }, { name: 'Plank', sets: 3 }] };
+
+  if (!trainingEnabled) {
+    await check('training stays off with fresh data while CONFIG.training is false (D25)', async () => {
+      await withFixture(fresh, async (p) => {
+        assert.equal(await p.$eval('#training', (el) => el.hidden), true, 'feature flag is off but the section rendered');
+      });
+    });
+  } else {
+    await check('training section reveals with fresh data (D25)', async () => {
+      await withFixture(fresh, async (p) => {
+        assert.ok(await p.$eval('#training', (el) => !el.hidden), 'training stayed hidden with fresh data');
+        const txt = await p.$eval('#training', (el) => el.textContent);
+        assert.ok(/LEGS/.test(txt), `target missing: ${txt}`);
+        assert.equal(await p.$$eval('#training .train__card', (e) => e.length), 2, 'expected 2 exercise cards');
+        assert.ok(await p.$$eval('#training [data-muscle="legs"].is-active', (e) => e.length) > 0, 'worked muscle group not lit');
+      });
+    });
+
+    await check('training section stays hidden with stale data (D25)', async () => {
+      const stale = { ...fresh, updated: new Date(Date.now() - 30 * 86400000).toISOString() }; // 30d > 10d cap
+      await withFixture(stale, async (p) => {
+        assert.equal(await p.$eval('#training', (el) => el.hidden), true, 'stale data should keep section hidden');
+      });
+    });
+  }
 
   await browser.close();
   server.close();
