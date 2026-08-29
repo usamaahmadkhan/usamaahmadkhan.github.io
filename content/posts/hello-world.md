@@ -2,7 +2,7 @@
 title: Hello, world
 date: 2026-08-02
 summary: The first post on this site, and why it exists.
-draft: false
+draft: true
 ---
 
 This is the first entry in `/blog`. The pipeline behind it is intentionally boring:
