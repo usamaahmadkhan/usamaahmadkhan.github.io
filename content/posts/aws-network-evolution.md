@@ -1,5 +1,5 @@
 ---
-title: How Cross-Account Networking Got Cheaper, One Fix at a Time
+title: How to reduce AWS bill - Lessons from optimizing highly distributed Infra platform
 date: 2026-08-28
 summary: PrivateLink sprawl to Transit Gateway to a hybrid peering split — one platform's networking cost story, told through the challenges each stage hit and how the next stage solved them.
 draft: true
