@@ -16,7 +16,7 @@ The best answer I've found is a 350-year-old argument about God by Blaise Pascal
 Blaise Pascal argued it's rational to believe in God even without proof, because the payoffs are lopsided:
 
 | | God exists | God doesn't exist |
-|---|---|---|
+| --- | --- | --- |
 | **Believe** | Infinite gain (heaven) | Small loss (some pleasures skipped) |
 | **Don't believe** | Infinite loss (hell) | Small gain (those pleasures kept) |
 
@@ -27,7 +27,7 @@ You don't need to know the odds. One column is so extreme it decides the bet for
 Swap God for the AI outcome, and belief for a check:
 
 | | AI goes well | AI destroys humanity (~10% chance) |
-|---|---|---|
+| --- | --- | --- |
 | **Invest** | Own the most valuable companies ever built | $0 |
 | **Don't invest** | Miss it | $0 |
 
@@ -41,8 +41,6 @@ Pascal's wager has one hidden assumption: your bet doesn't change whether God ex
 
 Investors treat AI risk the same way, as a fixed number outside their control. Their reasoning is that someone will build it anyway, so they might as well own a piece. But AI isn't God... and it NEVER will be! The odds of it going wrong depend on how fast and how carelessly it gets built, and investor money is what funds that speed. Together, they are shaping it.
 
+AI investments is thousands of people betting on a reality they're collectively creating (That doesn't seem too scary right?). Because the worst case zeroes out everyone equally. So the logical choice is to invest no matter what.
 
-AI investments is thousands of people betting on a reality they're collectively creating (That doesn't see too scary right?). Because the worst case zeroes out everyone equally. So the logical choice is to invest no matter what.
-
-
-Will the AI bubble burst before the ROI starts flowing? or are we headed towards the apocalypse? BETS ARE ON!!!
+Will the AI bubble burst before the ROI starts flowing? or are we headed towards the assured apocalypse? BETS ARE ON!!!
