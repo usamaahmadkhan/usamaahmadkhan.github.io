@@ -9,7 +9,7 @@ Here's something I can't wrap my head around: The engineers and researchers at t
 
 Why? If the builders themselves are scared, what are investors seeing that makes the bet worth it?
 
-The best answer I've found is a 350-year-old argument about God by Blaise Pascal which he wrote in his book <i>Pensées</i>
+The best answer I've found is a 350-year-old argument about God by Blaise Pascal which he wrote in his work *[Pensées](https://en.wikipedia.org/wiki/Pens%C3%A9es)*
 
 ## Pascal's wager, briefly
 
@@ -43,4 +43,6 @@ Investors treat AI risk the same way, as a fixed number outside their control. T
 
 AI investments is thousands of people betting on a reality they're collectively creating (That doesn't seem too scary right?). Because the worst case zeroes out everyone equally. So the logical choice is to invest no matter what.
 
-Will the AI bubble burst before the ROI starts flowing? or are we headed towards the assured apocalypse? BETS ARE ON!!!
+Will the AI bubble burst before the ROI starts flowing? or are we headed towards the assured apocalypse?
+
+**BETS ARE ON!!!**
