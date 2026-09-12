@@ -39,8 +39,10 @@ That's the answer. Investors aren't ignoring the risk. The math makes it irrelev
 
 Pascal's wager has one hidden assumption: your bet doesn't change whether God exists.
 
-Investors treat AI risk the same way, as a fixed number outside their control. Their reasoning is that someone will build it anyway, so they might as well own a piece. But AI isn't God... Yes it's NOT! The odds of it going wrong depend on how fast and how carelessly it gets built, and investor money is what funds that speed. Each investor thinks they're just placing a bet on the outcome. Together, they're shaping it.
+Investors treat AI risk the same way, as a fixed number outside their control. Their reasoning is that someone will build it anyway, so they might as well own a piece. But AI isn't God... and it NEVER will be! The odds of it going wrong depend on how fast and how carelessly it gets built, and investor money is what funds that speed. Together, they are shaping it.
 
-## The takeaway
 
-Pascal's logic works for one person facing a reality they can't change. AI investment is thousands of people betting on a reality they're collectively creating. Because the worst case zeroes out everyone equally, no individual bet will ever price that risk in. That's the real reason the money keeps flowing, and it's exactly why this can't be left to the market alone.
+AI investments is thousands of people betting on a reality they're collectively creating (That doesn't see too scary right?). Because the worst case zeroes out everyone equally. So the logical choice is to invest no matter what.
+
+
+Will the AI bubble burst before the ROI starts flowing? or are we headed towards the apocalypse? BETS ARE ON!!!
